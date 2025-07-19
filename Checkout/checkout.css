@@ -1,0 +1,114 @@
+/* General Reset */
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Main Styles */
+main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+    min-height: 760px !important;
+    width: 600px !important;
+    padding: 2rem;
+    font-family: var(--font-family-plain);
+}
+
+.order-info-basic{
+    display: flex;
+    flex-direction: column;
+}
+
+.item{
+    display: flex;
+    justify-content: space-evenly;
+    width: 500px;
+}
+
+.item span{
+    width: 100px;
+}
+
+form{
+    min-height: 285px;
+}
+
+#checkout-options{
+    display: flex;
+    justify-content: space-evenly;
+    gap: 4rem;
+}
+
+#checkout-options h2,
+#payment-options h2{
+    font-weight: 500;
+}
+
+#checkout-options button,
+#payment-options button, 
+.complete{
+    border-radius: 50px;
+    border: 1px solid var(--color-26);
+    background-color: var(--color-26);
+    padding: 5px 10px;
+    color: var(--color-13);
+    font-family: var(--font-family-plain);
+    font-size: 20px;
+    font-weight: 500;
+}
+
+/* fieldsets */
+
+fieldset{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 400px;
+    font-size: 18px;
+}
+
+.fieldset-info{
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+fieldset label{
+    width: 150px;
+}
+
+fieldset input{
+    width: 200px;
+    font-family: var(--font-family-plain);
+    font-size: 16px;
+}
+
+.field{
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem auto;
+}
+
+fieldset button{
+    margin: 1rem auto;
+    background-color: var(--color-26);
+    border: 1px solid var(--color-26);
+    border-radius: 25px;
+    padding: 0.5rem;
+    font-family: var(--font-family-plain);
+    font-size: 20px;
+    color: var(--color-13);
+}
+
+.discount-container{
+    margin-top: 2rem;
+    padding-left: 1.2rem;
+}
+
+.discount-container input{
+    width: 100px;
+}

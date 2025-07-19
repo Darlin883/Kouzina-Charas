@@ -1,0 +1,22 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+iframe{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    border-radius: 20px;
+    width: 600px;
+    height: 600px;
+}
+
+.background p{
+    display: flex;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    font-size: 20px;
+}

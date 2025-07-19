@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <link rel="icon" href="../Flat_Icons/food.png" type="image/x-icon">
+    <link rel="stylesheet" href="../Menu/menu.css">
+    <link rel="stylesheet" href="checkout.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Athiti:wght@200;300;400;500;600;700&family=Bonheur+Royale&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Ruthie&family=Thasadith:ital,wght@0,400;0,700;1,400;1,700&family=WindSong:wght@400;500&display=swap" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    <script>
+        window.addEventListener('pageshow', (event) => {                        // checks if page loaded from bfcache or full reload
+            if (event.persisted){                                                    
+                const receiptExists = localStorage.getItem('receipt');
+                if (receiptExists && !localStorage.getItem('cart')) {
+                    localStorage.removeItem('receipt');
+                    localStorage.removeItem('orderData');
+                    localStorage.removeItem('validDiscount');
+                    window.location.href = '../Cart/cart.html';
+                }
+            }
+        });
+    </script>
+
+    <script src="checkout.js" defer></script>
+</head>
+<body>
+<header class="image-section">
+    <a href="../index.html" >
+        <img src="../Flat_Icons/restaurant-white.png" alt="home" class="flatIcon">
+    </a>
+    <h2>Kouzína Charás</h2>
+    <a href="../Cart/cart.html">
+        <img src="../Flat_Icons/shopping-white.png" alt="Cart" class="flatIcon">
+    </a>
+</header>
+
+<main class="payment background">
+    <section id="order-summary-basic" style="min-height: 155px;">
+        <h2>Order Summary</h2>
+        <div class="order-info-basic">
+            <div class="item">
+                <span><strong>Item:</strong></span>
+                <span><strong>Quantity:</strong></span>
+                <span><strong>Item Price:</strong></span>
+                <span><strong>Total:</strong></span>
+            </div>
+        </div>
+        <div class="discount-container">
+            <label for="discount">Enter discount code:</label>
+            <input type="text" name="discount" id="discount">
+            <p id="discountError" style="color: #e60d0d;" hidden>Discount code is invalid.</p>
+            <p id="discountTrue" style="color: #207625;" hidden>Discount code applied!</p>
+        </div>
+
+    </section>
+
+    <section id="checkout-options">
+        <h2>Select Order Option:</h2>
+        <button id="pick-up">Pick-up</button>
+        <button id="delivery">Delivery</button>
+    </section>
+
+    <form id="pickup-form" class="form" hidden>
+        <fieldset>
+            <legend>Pick-up Details</legend>
+            <div class="field-info">
+                <div class="field">
+                    <label for="pickup-name">Name:</label>
+                    <input id="pickup-name" name="pickup-name" type="text" placeholder="John Doe" maxlength="25" required>
+                </div>
+                <div class="field">
+                    <label for="pickup-phone">Phone:</label>
+                    <input id="pickup-phone" name="pickup-phone" type="tel" maxlength="10" onkeyup="this.value=this.value.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3')" placeholder="(123) 456-7890" required>
+                </div>
+            </div>
+            <button type="submit">Next</button>
+        </fieldset>
+    </form>
+
+    <form id="delivery-form" class="form" hidden>
+        <fieldset>
+            <legend>Delivery Details</legend>
+            <div class="field-info">
+                <div class="field">
+                    <label for="delivery-name">Name:</label>
+                    <input id="delivery-name" name="delivery-name" type="text" maxlength="25" placeholder="John Doe" onblur="this.value=this.value.replace(/^([a-zA-Z]{2,15})\s*([a-zA-Z]{2,15})$/, '$1 $2')" required>   
+                </div>
+                <div class="field">
+                    <label for="delivery-street">Street & Number:</label>
+                    <input id="delivery-street" name="delivery-street" type="text" maxlength="20" placeholder="Thiseos 367" onblur="this.value=this.value.replace(/^([a-zA-Z]{1,15})\s*(\d{1,4})$/, '$1 $2')" required>
+                </div>
+                
+                <div class="field">
+                    <label for="delivery-city">City & Postal Code:</label>
+                    <input id="delivery-city" name="delivery-city" type="text" maxlength="21" onkeyup="this.value=this.value.replace(/^([a-zA-Z]{1,15})\s*(\d{3})(\d{2})$/, '$1 $2 $3')" placeholder="Kallithea 176 74" required>
+                </div>
+                
+                <div class="field">
+                    <label for="delivery-phone">Phone:</label>
+                    <input id="delivery-phone" name="delivery-phone" type="tel" maxlength="10" onkeyup="this.value=this.value.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3')" placeholder="(123) 456-7890" required>
+                </div>
+                
+            </div>
+            <button type="submit">Next</button>
+        </fieldset>
+    </form>
+
+    <section id="payment-options" class="form">
+        <h2>Select Payment Method</h2>
+        <button id="cash-payment" class="btn">Cash</button>
+        <button id="card-payment" class="btn">Card</button>
+    </section>
+    
+    <section id="summary" class="form" hidden>
+        <h2>Order Information</h2>
+        <div id="summary-container">
+            <p id="summary-order-type"></p>
+            <p id="summary-payment-method"></p>
+            <div id="form-summary">
+                <!-- User's form data will be dynamically populated here -->
+            </div>
+        </div>
+        <button class="complete">Place Order</button>
+    </section>
+    
+    <form id="card-form" class="form" hidden>
+        <fieldset>
+            <legend>Credit Card Information</legend>
+            <label for="card-number">Card Number</label>
+            <input id="card-number" type="text" placeholder="1234 5678 9012 3456" maxlength="16" onblur="validateCardInput()">
+            <label for="expiry-date">Expiry Date</label>
+            <input id="expiry-date" type="text" placeholder="MM/YY" maxlength="4" onblur="validateExpiration()" required>
+            <label for="cvc">CVC</label>
+            <input id="cvc" type="text" placeholder="123" maxlength="4" required>
+            <label for="card-holder" >Card Holder Name</label>
+            <input id="card-holder" type="text" maxlength="25" placeholder="John Doe" onblur="this.value=this.value.replace(/^([a-zA-Z]{1,15})\s*([a-zA-Z]{1,15})$/, '$1 $2')" required>
+            <div class="tip">
+            </div>
+            <button type="submit">View Order Summary</button>
+        </fieldset>
+    </form>
+
+    <form id="cash-form" class="form" hidden>
+        <fieldset>
+            <legend>Cash</legend>
+            <p>Cash payment selected.</p>
+            <button type="submit">View Order Summary</button>
+        </fieldset>
+    </form>
+    
+</main>
+
+<footer>
+    <div class="footer-main">
+        <div class="info">
+            <a href="../about.html">About Us</a>
+            <a href="../Blog/blog.html">Blog</a>
+            <a href="../location.html">Location</a>
+        </div>
+        <div class="social-media">
+            <a href="#"><ion-icon name="logo-twitter" class="social-icon"></ion-icon></a>
+            <a href="#"><ion-icon name="logo-facebook" class="social-icon"></ion-icon></a>
+            <a href="#"><ion-icon name="logo-instagram" class="social-icon"></ion-icon></a>
+            <a href="#"><ion-icon name="logo-google" class="social-icon"></ion-icon></a>
+        </div>
+    </div>
+    <div class="icons-info-footer">
+        <a href="https://www.flaticon.com/icons">Restaurant and bag icons created by Freepik - Flaticon</a>
+    </div>
+</footer>
+</body>
+</html>
